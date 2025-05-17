@@ -1,0 +1,357 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>笨笨狗逃了'の代码</title>
+    <style>
+        body {
+            background: url('2.jpg') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        @font-face {
+            font-family: 'Tanugo-Round-Bold-2';
+            src: url('Tanugo-Round-Bold-2.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+        }
+        .content {
+            position: relative;
+            z-index: 1;
+            color: #222;
+            padding: 40px;
+            background: rgba(255,255,255,0.7);
+            border-radius: 16px;
+            max-width: 600px;
+            margin: 0 auto;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+            font-size: 24px;
+            font-family: 'Tanugo-Round-Bold-2', sans-serif;
+        }
+        .music-player-container {
+            position: fixed;
+            left: 32px;
+            bottom: 32px;
+            z-index: 10;
+            width: 200px;
+            height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ffeaea 0%, #e0eaff 40%, #b3c6ff 100%);
+            border-radius: 50%;
+            box-shadow: 0 4px 24px rgba(251,74,62,0.10), 0 2px 16px rgba(0,0,0,0.10);
+            flex-direction: column;
+            transition: background 0.2s;
+            user-select: none;
+        }
+        .music-player-controls {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .music-btn {
+            position: absolute;
+            background: linear-gradient(135deg, #fff 60%, #e0eaff 100%);
+            border: 2px solid #e0eaff;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s, border 0.2s;
+            outline: none;
+        }
+        .music-btn svg {
+            width: 28px;
+            height: 28px;
+        }
+        .music-btn.play {
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #FB4A3E 60%, #ffb3a7 100%);
+            color: #fff;
+            border: 2px solid #FB4A3E;
+            box-shadow: 0 4px 16px rgba(251,74,62,0.18);
+        }
+        .music-btn.prev {
+            left: 12%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #e0eaff 60%, #fff 100%);
+            color: #4a90e2;
+            border: 2px solid #b3d1ff;
+        }
+        .music-btn.next {
+            right: 12%;
+            top: 50%;
+            transform: translate(50%, -50%);
+            background: linear-gradient(135deg, #e0eaff 60%, #fff 100%);
+            color: #4a90e2;
+            border: 2px solid #b3d1ff;
+        }
+        .music-btn.add {
+            left: 50%;
+            top: 12%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #fff 60%, #ffeaea 100%);
+            color: #FB4A3E;
+            border: 2px solid #ffb3a7;
+        }
+        .music-btn.list {
+            left: 50%;
+            bottom: 12%;
+            transform: translate(-50%, 50%);
+            background: linear-gradient(135deg, #fff 60%, #e0eaff 100%);
+            color: #4a90e2;
+            border: 2px solid #b3d1ff;
+        }
+        .music-file-input {
+            display: none;
+        }
+        .music-bottom-bar-global {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            width: 100%;
+            pointer-events: none;
+            z-index: 20;
+        }
+        .music-bottom-bar-global > * {
+            pointer-events: auto;
+        }
+        .audio-spectrum {
+            position: static;
+            display: block;
+            margin: 0 auto 8px auto;
+            left: unset;
+            top: unset;
+            transform: none;
+            z-index: 21;
+            pointer-events: none;
+            width: 340px;
+            height: 56px;
+        }
+        .music-progress {
+            position: static;
+            margin: 0 auto;
+            left: unset;
+            bottom: unset;
+            transform: none;
+            width: 320px;
+            height: 8px;
+            background: #eee;
+            border-radius: 4px;
+            overflow: hidden;
+            cursor: pointer;
+            z-index: 22;
+        }
+        .music-list-panel {
+            position: absolute;
+            left: 50%;
+            bottom: 110%;
+            transform: translateX(-50%);
+            width: 260px;
+            max-height: 180px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+            overflow-y: auto;
+            display: none;
+            z-index: 20;
+            padding: 10px 0;
+        }
+        .music-list-panel.active {
+            display: block;
+        }
+        .music-list-item {
+            padding: 8px 24px;
+            font-size: 16px;
+            color: #333;
+            cursor: pointer;
+            transition: background 0.2s;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .music-list-item.active {
+            background: #ffeaea;
+            color: #FB4A3E;
+        }
+        .music-list-item:hover {
+            background: #f7f7f7;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1>欢迎来到笨笨狗の小窝</h1>
+        <p>嘿嘿😏<br>又抓到一个翘课的🙈<br>好好学习不香吗！？📚</p>
+    </div>
+</body>
+    <div class="music-player-container" id="musicPlayer">
+        <div class="music-player-controls">
+            <button class="music-btn prev" id="btnPrev" title="上一首">
+                <svg viewBox="0 0 48 48"><polygon points="32,12 32,36 16,24" fill="#FB4A3E"/></svg>
+            </button>
+            <button class="music-btn add" id="btnAdd" title="添加本地音乐">
+                <svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="20" fill="#FB4A3E"/><rect x="22" y="14" width="4" height="20" fill="#fff"/><rect x="14" y="22" width="20" height="4" fill="#fff"/></svg>
+            </button>
+            <button class="music-btn play" id="btnPlay" title="播放/暂停">
+                <svg id="playIcon" viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" stroke="#fff" stroke-width="4" fill="#FB4A3E"/><polygon points="20,16 36,24 20,32" fill="#fff"/></svg>
+                <svg id="pauseIcon" viewBox="0 0 48 48" style="display:none"><circle cx="24" cy="24" r="22" stroke="#fff" stroke-width="4" fill="#FB4A3E"/><rect x="18" y="16" width="4" height="16" fill="#fff"/><rect x="26" y="16" width="4" height="16" fill="#fff"/></svg>
+            </button>
+            <button class="music-btn next" id="btnNext" title="下一首">
+                <svg viewBox="0 0 48 48"><polygon points="16,12 16,36 32,24" fill="#FB4A3E"/></svg>
+            </button>
+            <button class="music-btn list" id="btnList" title="音乐列表">
+                <svg viewBox="0 0 48 48"><rect x="10" y="14" width="28" height="4" rx="2" fill="#FB4A3E"/><rect x="10" y="22" width="28" height="4" rx="2" fill="#FB4A3E"/><rect x="10" y="30" width="28" height="4" rx="2" fill="#FB4A3E"/></svg>
+            </button>
+        </div>
+        <div class="music-list-panel" id="musicListPanel"></div>
+        <input type="file" class="music-file-input" id="musicFileInput" accept="audio/*" multiple>
+    </div>
+    <div class="music-bottom-bar-global">
+        <canvas class="audio-spectrum" id="audioSpectrum" width="220" height="80"></canvas>
+        <div class="music-progress" id="musicProgress">
+            <div class="music-progress-bar" id="musicProgressBar"></div>
+        </div>
+    </div>
+<script>
+// 音乐播放器核心逻辑
+const musicList = [];
+let currentIndex = -1;
+let isPlaying = false;
+const audio = new Audio();
+const spectrum = document.getElementById('audioSpectrum');
+const ctx = spectrum.getContext('2d');
+const btnPlay = document.getElementById('btnPlay');
+const btnPrev = document.getElementById('btnPrev');
+const btnNext = document.getElementById('btnNext');
+const btnAdd = document.getElementById('btnAdd');
+const btnList = document.getElementById('btnList');
+const playIcon = document.getElementById('playIcon');
+const pauseIcon = document.getElementById('pauseIcon');
+const musicFileInput = document.getElementById('musicFileInput');
+const musicListPanel = document.getElementById('musicListPanel');
+const musicProgress = document.getElementById('musicProgress');
+const musicProgressBar = document.getElementById('musicProgressBar');
+let animationId = null;
+let audioCtx, analyser, source, dataArray, bufferLength;
+
+function renderMusicList() {
+    musicListPanel.innerHTML = '';
+    musicList.forEach((item, idx) => {
+        const div = document.createElement('div');
+        div.className = 'music-list-item' + (idx === currentIndex ? ' active' : '');
+        div.textContent = item.name;
+        div.onclick = () => {
+            playMusic(idx);
+            musicListPanel.classList.remove('active');
+        };
+        musicListPanel.appendChild(div);
+    });
+}
+function playMusic(idx) {
+    if (idx < 0 || idx >= musicList.length) return;
+    currentIndex = idx;
+    audio.src = musicList[idx].url;
+    audio.load();
+    audio.play();
+    renderMusicList();
+}
+function playNext() {
+    if (musicList.length === 0) return;
+    playMusic((currentIndex + 1) % musicList.length);
+}
+function playPrev() {
+    if (musicList.length === 0) return;
+    playMusic((currentIndex - 1 + musicList.length) % musicList.length);
+}
+function togglePlay() {
+    if (!audio.src) return;
+    if (audio.paused) {
+        audio.play();
+    } else {
+        audio.pause();
+    }
+}
+function updatePlayPauseIcon() {
+    if (audio.paused) {
+        playIcon.style.display = '';
+        pauseIcon.style.display = 'none';
+    } else {
+        playIcon.style.display = 'none';
+        pauseIcon.style.display = '';
+    }
+}
+function setupAudioContext() {
+    if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        analyser = audioCtx.createAnalyser();
+        analyser.fftSize = 128;
+        bufferLength = analyser.frequencyBinCount;
+        dataArray = new Uint8Array(bufferLength);
+        source = audioCtx.createMediaElementSource(audio);
+        source.connect(analyser);
+        analyser.connect(audioCtx.destination);
+    }
+    // 不要每次都重新创建 source
+}
+audio.onplay = () => {
+    setupAudioContext();
+    showSpectrum(true);
+    drawSpectrum();
+    updatePlayPauseIcon();
+    if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+};
+
+audio.onpause = audio.onended = () => {
+    showSpectrum(false);
+    if (animationId) cancelAnimationFrame(animationId);
+    updatePlayPauseIcon();
+    if (audioCtx && audioCtx.state === 'running') audioCtx.suspend();
+};
+audio.ontimeupdate = updateProgress;
+musicProgress.onclick = seek;
+let dragging = false;
+musicProgress.onmousedown = (e) => { dragging = true; seek(e); };
+document.onmousemove = (e) => { if (dragging) seek(e); };
+document.onmouseup = () => { dragging = false; };
+btnAdd.onclick = () => {
+    musicFileInput.click();
+};
+
+musicFileInput.onchange = (e) => {
+    const files = Array.from(e.target.files);
+    files.forEach(file => {
+        const url = URL.createObjectURL(file);
+        musicList.push({ name: file.name, url });
+    });
+    if (musicList.length > 0 && currentIndex === -1) {
+        playMusic(0);
+    } else {
+        renderMusicList();
+    }
+};
+renderMusicList();
+</script>
+</html>
