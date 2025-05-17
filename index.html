@@ -280,14 +280,14 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
                                 animation: '0.3s ease-in stamp'
                             }).show();
 
-                            var $w = $('#watermark');
+                            var $w = $('#watermark'); // 这行代码使用了 jQuery
                             var $wt = 57;
                             var $ws = 1;
 
                             function updateWatermark() {
-                                var d = new Date();
-                                var t = d.toLocaleString();
-                                $w.html(t).css({
+                                var d = new Date(); // 获取客户端当前时间
+                                var t = d.toLocaleString(); // 转换为本地时间字符串
+                                $w.html(t).css({    // 更新 id="watermark" 元素的内容
                                     top: $wt + '%'
                                 });
                                 if ($wt > 75) {
@@ -297,8 +297,8 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
                                 }
                                 $wt += $ws;
                             }
-                            updateWatermark();
-                            setInterval(updateWatermark, 1000);
+                            updateWatermark(); // 页面加载时首次更新
+                            setInterval(updateWatermark, 1000); // 每秒更新一次
                         </script>
                     </div>
                 </div>
