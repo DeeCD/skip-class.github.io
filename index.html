@@ -19,9 +19,7 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
     <script src="./jquery-1.12.4.min.js"></script><input type="hidden" id="_o_dbjbempljhcmhlfpfacalomonjpalpko" data-inspect-config="7"><script type="text/javascript" src="chrome-extension://dbjbempljhcmhlfpfacalomonjpalpko/scripts/inspector.js"></script>
     <script src="./mui.min.js"></script>
     <script src="./app.js"></script>
-    <link rel="icon" href="./12-请假条.png" type="image/png">
-    <link rel="shortcut icon" href="./12-请假条.png" type="image/png">
-    <link rel="apple-touch-icon" href="./12-请假条.png">
+    
     <link rel="stylesheet" href="./helper.css">
     <link rel="stylesheet" href="./main_vue.css">
     <style>
@@ -132,6 +130,35 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
                                             <th><span class="invisible">至</span></th>
                                         </tr>
                                     </tbody></table>
+                                    <script>
+                                        // 页面加载后，将“起/至”自动填充为当天 08:00 / 22:00
+                                        document.addEventListener('DOMContentLoaded', function () {
+                                            var rows = document.querySelectorAll('.time-table tbody tr');
+                                            if (!rows || rows.length < 2) return;
+                                            var now = new Date();
+                                            var y = now.getFullYear();
+                                            var m = String(now.getMonth() + 1).padStart(2, '0');
+                                            var d = String(now.getDate()).padStart(2, '0');
+                                            var startText = y + '-' + m + '-' + d + ' 08:00';
+                                            var endText = y + '-' + m + '-' + d + ' 22:00';
+                                            var startP = rows[0].querySelector('p');
+                                            var endP = rows[1].querySelector('p');
+                                            if (startP) startP.textContent = startText;
+                                            if (endP) endP.textContent = endText;
+                                            // 同步“批准时间”为当天 08:00
+                                            var approveRow = Array.prototype.find.call(
+                                                document.querySelectorAll('.bottom-table tr'),
+                                                function (tr) {
+                                                    var th = tr.querySelector('th');
+                                                    return th && th.textContent && th.textContent.indexOf('批准时间') > -1;
+                                                }
+                                            );
+                                            if (approveRow) {
+                                                var approveTd = approveRow.querySelector('td.text-dark');
+                                                if (approveTd) approveTd.textContent = startText;
+                                            }
+                                        });
+                                    </script>
                                     <div class="text-center text-success mt-20 mb--10 font-24">不离校</div>
 
                                     <div class="text-center">
@@ -748,73 +775,73 @@ to {
   font-size: 10px;
   text-transform: uppercase;
   /* 文本大写 */
-  cursor: pointer;
+  cursor: pointer;   光标:指针;
   /* 鼠标悬停时的指针样式 */
-  transition: background-color 0.3s;
+  transition: background-color 0.3s;背景颜色过渡：0.3 秒；
   /* 背景颜色变化的过渡效果 */
 }
-.button[data-v-04ce0a75]:hover {
-  background-color: #d32f2f;
+.button[data-v-04ce0a75]:hover {.带有 data-v-04ce0a75 属性的按钮在悬停时 {
+  background-color: #d32f2f;背景颜色：#d32f2f
   /* 鼠标悬停时的背景颜色稍暗 */
 }
-.button[data-v-04ce0a75]:active {
-  background-color: #c62828;
+.button[data-v-04ce0a75]:active {.[data-v-04ce0a75] 属性为 button 的元素处于激活状态时的样式：
+  background-color: #c62828;背景颜色：#c62828
   /* 鼠标点击时的背景颜色更暗 */
 }
-.button[data-v-04ce0a75]:disabled {
-  background-color: #ef9a9a;
+.button[data-v-04ce0a75]:disabled {.[data-v-04ce0a75] 属性的按钮处于禁用状态时 {
+  background-color: #ef9a9a;背景颜色：#ef9a9a
   /* 禁用状态的按钮颜色更亮，更少饱和度 */
   cursor: default;
   /* 禁用状态的鼠标样式 */
 }
 .loading-indicator[data-v-04ce0a75] {
   /* 添加你的样式，比如居中显示、动画等 */
-  position   位置: absolute   绝对;
-     显示:flex;display   显示: flex;
-     文本内容居中对齐；justify-content: center   中心;
-     对齐项目:中心;align-items: center   中心;
-  flex-direction: column   列;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 1.5em   在;
+  position: absolute;
+  display: flex;   显示:flex;
+  justify-content: center;   文本内容居中对齐；
+  align-items: center;   对齐项目:中心;
+  flex-direction: column;
+  top: 50%;   上图:50%;
+  left: 50%;   左:50%;
+  transform: translate(-50%, -50%);transform   变换: translate   翻译(-50%, -50%)；  翻译为中文：变换：向左和向上平移 50%；
+  font-size: 1.5em;
   /* ...其他样式 */
 }
 .message[data-v-04ce0a75] {
-  position   位置: absolute   绝对;
-  top: 50%;
+  position: absolute;
+  top: 50%;   上图:50%;
   /* 定位到父元素的中间 */
-  left: 50%;
+  left: 50%;   左:50%;
   /* 定位到父元素的中间 */
-  transform: translate(-50%, -50%);
-  /* 使用 transform 实现精确居中 */
-  padding: 10px;
-  background-color: white;
+  transform: translate(-50%, -50%);transform   变换: translate   翻译(-50%, -50%)；  翻译为中文：变换：向左和向上平移 50%；
+  /* 使用 transform 实现精确居中 *//* Use transform to achieve precise centering */
+  padding: 10px;   填充:10 px;
+  background-color: white;   背景颜色：白色；
   /* 设置背景颜色为白色 */
-  border   边境: 1px solid   固体 blue;
+  border: 1px solid blue;   边框：1 像素宽的蓝色实线；
   border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);盒阴影：0 2 像素 4 像素 rgba(0, 0, 0, 0.2)；
   /* 添加阴影效果 */
-     text-align:中心;text-align: center   中心;
+  text-align: center;   text-align:中心;
   z-index: 100;
   /* 确保提示信息在其他元素上方 */
 }
 .loader[data-v-04ce0a75] {
-  边框：5 像素宽的实线，颜色为 #f3f3f3；border: 5px solid   固体 #f3f3f3;
+  border: 5px solid #f3f3f3;   边框：5 像素宽的实线，颜色为 #f3f3f3；
   /* 浅灰色边框 */
-  上边框：5 像素宽的实线，颜色为 #3498db；border-top: 5px solid   固体 #3498db;
+  border-top: 5px solid #3498db;上边框：5 像素宽的实线，颜色为 #3498db；
   /* 蓝色边框 */
-     这个特性:50%;border-radius: 50%;
-     宽度:40像素;width: 40px;
-     高度:40像素;height: 40px;
-  动画：spin-04ce0a75 2 秒 线性 无限；animation: spin-04ce0a75 2s linear infinite;
+  border-radius: 50%;   这个特性:50%;
+  width: 40px;   宽度:40像素;
+  height: 40px;   高度:40像素;
+  animation: spin-04ce0a75 2s linear infinite;动画：spin-04ce0a75 2 秒 线性 无限；
   margin-bottom: 20px;
 }
 @keyframes spin-04ce0a75 {
 0% {
-       变换：旋转 0 度；transform: rotate(0deg);
+    transform: rotate(0deg);   变换：旋转 0 度；
 }
 100% {
-    变换：旋转 360 度；transform: rotate(360deg);
+    transform: rotate(360deg);变换：旋转 360 度；
 }
-}</style><!----></template></yd-image-ocr></body></html>
+}</style><!----></template></yd-image-ocr></body></html>}  （此段内容为 HTML 结构，没有实际可翻译的文本内容。）
