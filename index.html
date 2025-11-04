@@ -88,15 +88,17 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
             justify-content: flex-end;
             text-align: right;
         }
-        .fake-more {               /* 右侧省略号更大更清晰，圆点样式 */
-            font-size: 20px;
-            letter-spacing: 4px;
-            line-height: 1;       /* 去除字体自身的上/下空白 */
-            position: relative;
-            top: -3px;            /* 再上移 2px，更贴近"×" */
-            font-weight: normal;
-            color: #000;          /* 纯黑色，与请假条一致 */
-            font-family: Arial, sans-serif; /* 默认字体，不受系统个性化影响 */
+        .fake-more {               /* 右侧更多按钮容器 */
+            line-height: 1;
+        }
+        .fake-icon {
+            width: 28px;
+            height: 28px;
+            display: block;
+        }
+        .fake-more .fake-icon {
+            width: 22px;  /* 缩小更多按钮图标尺寸 */
+            height: 22px;
         }
         .fake-sub-title {         /* 同容器内的小字副标题 */
             margin-top: 2px;
@@ -119,12 +121,14 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
 
                 <!-- 伪导航栏（与内容同容器，宽度一致） -->
                 <div class="fake-header">
-                    <div class="fake-close">×</div>
+                    <div class="fake-close"><img class="fake-icon" alt="close"
+                        src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'><line x1='6' y1='6' x2='22' y2='22' stroke='%23000' stroke-width='2.5' stroke-linecap='round'/><line x1='22' y1='6' x2='6' y2='22' stroke='%23000' stroke-width='2.5' stroke-linecap='round'/></svg>" /></div>
                     <div class="fake-center">
                         <div class="fake-title">河南师大智慧学工用户中心</div>
                         <div class="fake-sub-title">htu.g8n.cn</div>
                     </div>
-                    <div class="fake-more">•••</div>
+                    <div class="fake-more"><img class="fake-icon" alt="more"
+                        src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'><circle cx='10' cy='14' r='2.8' fill='%23000'/><circle cx='14' cy='14' r='2.8' fill='%23000'/><circle cx='18' cy='14' r='2.8' fill='%23000'/></svg>" /></div>
                 </div>
 
                 <header class="row m-0 fixed-header">
