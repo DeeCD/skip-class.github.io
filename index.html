@@ -50,10 +50,10 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 10px 12px; /* 与下方栏更接近的内边距 */
-            background-color: #eee;
+            padding: 8px 12px; /* 减小内边距以匹配下方栏高度 */
+            /* 不设置背景色，使用浏览器默认颜色 */
             color: inherit;
-            height: 56px; /* 统一高度 */
+            height: 44px; /* 与下方蓝色栏高度一致 */
         }
         .fake-header > div { /* 子项基线设置 */
             display: flex;
@@ -70,14 +70,17 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
         .fake-close {
             font-size: 28px;
             cursor: pointer;
-            color: inherit;
+            color: #000;          /* 纯黑色，与请假条一致 */
             width: 44px;          /* 左侧固定宽度 */
             justify-content: flex-start;
+            font-weight: 300;     /* 细长样式，轻量字体 */
+            font-family: Helvetica, Arial, sans-serif; /* 默认字体，不受系统个性化影响 */
+            line-height: 1;
         }
         .fake-title {
             font-size: 22px;
-            font-weight: bold;
-            color: inherit;
+            font-weight: 900;     /* 加黑，与请假条黑度一致 */
+            color: #000;          /* 纯黑色，与请假条一致 */
             line-height: 1.1;
         }
         .fake-header > div:last-child { /* 右侧区域固定宽度 */
@@ -85,18 +88,22 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
             justify-content: flex-end;
             text-align: right;
         }
-        .fake-more {               /* 右侧省略号更大更清晰 */
-            font-size: 28px;
-            letter-spacing: 2px;
+        .fake-more {               /* 右侧省略号更大更清晰，圆点样式 */
+            font-size: 20px;
+            letter-spacing: 4px;
             line-height: 1;       /* 去除字体自身的上/下空白 */
             position: relative;
-            top: -3px;            /* 再上移 2px，更贴近“×” */
+            top: -3px;            /* 再上移 2px，更贴近"×" */
+            font-weight: normal;
+            color: #000;          /* 纯黑色，与请假条一致 */
+            font-family: Arial, sans-serif; /* 默认字体，不受系统个性化影响 */
         }
         .fake-sub-title {         /* 同容器内的小字副标题 */
             margin-top: 2px;
             color: #666;
             font-size: 12px;
             line-height: 1;
+            /* 不设置背景色，使用浏览器默认颜色 */
         }
     </style>
 
@@ -117,7 +124,7 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
                         <div class="fake-title">河南师大智慧学工用户中心</div>
                         <div class="fake-sub-title">htu.g8n.cn</div>
                     </div>
-                    <div class="fake-more">...</div>
+                    <div class="fake-more">•••</div>
                 </div>
 
                 <header class="row m-0 fixed-header">
