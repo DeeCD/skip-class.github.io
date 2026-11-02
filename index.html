@@ -142,7 +142,7 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
                     </div>
 
                     <div class="right auto">
-                        <a href="javascript:" "="">
+                        <a href="javascript:void(0);">
             <i class=" la la-qrcode font-22"></i> 出示假条核验码
                         </a>
                     </div>
@@ -255,7 +255,7 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
                         </div>
 
                         <div class="text-center mt-20 mb-30">
-                            <a href="javascript:" class="link p-10" "="">点击返校<i class=" la la-angle-right"></i></a>
+                            <a href="javascript:void(0);" class="link p-10">点击返校<i class=" la la-angle-right"></i></a>
                         </div>
 
 
@@ -308,7 +308,6 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
                             }
 
                             .time-table {
-                                border-bottom: 1px solid #dee2e6;
                             }
 
                             .bottom-table {
@@ -386,7 +385,7 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
 
                             var $w = $('#watermark'); // 这行代码使用了 jQuery
                             var $wt = 57;
-                            var $ws = 1;
+                            var $ws = 0.3;
 
                             function updateWatermark() {
                                 var d = new Date(); // 获取客户端当前时间
@@ -395,14 +394,14 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
                                     top: $wt + '%'
                                 });
                                 if ($wt > 75) {
-                                    $ws = -1;
+                                    $ws = -0.3;
                                 } else if ($wt < 57) {
-                                    $ws = 1;
+                                    $ws = 0.3;
                                 }
                                 $wt += $ws;
                             }
                             updateWatermark(); // 页面加载时首次更新
-                            setInterval(updateWatermark, 1000); // 每秒更新一次
+                            setInterval(updateWatermark, 100); // 每100ms更新一次
                         </script>
                     </div>
                 </div>
@@ -920,4 +919,124 @@ to {
 100% {
     transform: rotate(360deg);
 }
-}</style><!----></template></yd-image-ocr></body></html>
+}</style><!----></template></yd-image-ocr>
+    <style>
+        /* ===== 移动端对齐线上 pass-card 核验卡（2026-11-02 同步） ===== */
+        @media (max-width: 800px) {
+            /* 顶栏：高50px、z-index:6、轻阴影、logo 18px/600 */
+            header.fixed-header {
+                height: 50px !important;
+                z-index: 6 !important;
+                box-shadow: rgba(10, 60, 120, 0.18) 0px 1px 4px 0px !important;
+            }
+            header.fixed-header ~ .page-content {
+                padding-top: 50px !important;
+            }
+            header.fixed-header .logo {
+                font-size: 18px !important;
+                font-weight: 600 !important;
+                line-height: 50px !important;
+                color: #fff !important;
+            }
+            header.fixed-header > .left > a {
+                width: 40px !important;
+                height: 40px !important;
+                margin: 5px !important;
+                border-radius: 10px !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                line-height: 40px !important;
+            }
+            header.fixed-header > .left > a > i.la.la-arrow-left {
+                line-height: 40px !important;
+                font-size: 1.5rem !important;
+                margin-top: 0 !important;
+            }
+            header.fixed-header > .right.auto > a {
+                height: 40px !important;
+                margin: 5px !important;
+                border-radius: 10px !important;
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                font-size: 14px !important;
+                line-height: 40px !important;
+            }
+
+            /* 主卡片：半透明白、圆角6px、柔光阴影、flex */
+            .card {
+                background: rgba(255, 255, 255, 0.8) !important;
+                border: 0 !important;
+                border-radius: 6px !important;
+                box-shadow: rgba(23, 58, 105, 0.09) 0 3px 10px 0,
+                    rgba(163, 199, 242, 0.5) 0 0 0 1px,
+                    #fff 0 1px 0 0 inset !important;
+                display: flex !important;
+            }
+            .card .card-body {
+                padding: 17.5px !important;
+            }
+
+            /* 标题「请假条」28px/300 */
+            .card-text > .h2 {
+                font-size: 28px !important;
+                font-weight: 300 !important;
+                margin: 0 0 7px !important;
+            }
+            /* 学院红字 14px */
+            .card-text > .h2 + p {
+                font-size: 14px !important;
+                margin-bottom: 14px !important;
+            }
+
+            /* 个人信息：照片圆角3.5px、姓名17.5px/500、其余14px */
+            .figure-img {
+                border-radius: 3.5px !important;
+            }
+            .card-text .h5 {
+                font-size: 17.5px !important;
+                font-weight: 500 !important;
+            }
+            .card-text .h6 {
+                font-size: 14px !important;
+                font-weight: 400 !important;
+            }
+
+            /* 请假时间：th padding 10.5px、数值 24.5px/300 */
+            .time-table {
+                margin: 0 0 14px !important;
+            }
+            .time-table th {
+                padding: 10.5px !important;
+            }
+            .time-table td {
+                width: 220px !important;
+            }
+            .time-table td p {
+                font-size: 24.5px !important;
+                font-weight: 300 !important;
+                color: rgb(52, 58, 64) !important;
+                white-space: nowrap !important;
+            }
+
+            /* 底部审批表：宽221px、居中、td 深色 */
+            .bottom-table {
+                width: 221px !important;
+                margin: 30px auto !important;
+                font-size: 16px !important;
+            }
+            .bottom-table th {
+                padding: 4.2px !important;
+            }
+            .bottom-table td {
+                color: rgb(52, 58, 64) !important;
+            }
+
+            /* 点击返校蓝链 */
+            a.link.p-10 {
+                color: rgb(10, 95, 196) !important;
+            }
+        }
+    </style>
+</body></html>
